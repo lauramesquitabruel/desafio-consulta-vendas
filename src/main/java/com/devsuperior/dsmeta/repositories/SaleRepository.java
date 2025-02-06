@@ -23,6 +23,6 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
             "FROM TB_SALES t1\n" +
             "JOIN TB_SELLER t2 ON t1.seller_id = t2.id\n" +
             "WHERE t1.date BETWEEN :minDate AND :maxDate\n" +
-            "AND t2.name ILIKE CONCAT('%', :name, '%')")
-    List<ReportProjection> report(LocalDate minDate, LocalDate maxDate, String name);
+            "AND UPPER(t2.name) LIKE UPPER(CONCAT('%', :sellerName, '%'))")
+    List<ReportProjection> report(LocalDate minDate, LocalDate maxDate, String sellerName);
 }

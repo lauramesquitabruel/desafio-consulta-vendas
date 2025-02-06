@@ -1,5 +1,6 @@
 package com.devsuperior.dsmeta.controllers;
 
+import com.devsuperior.dsmeta.dto.ReportDTO;
 import com.devsuperior.dsmeta.dto.SummaryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.devsuperior.dsmeta.dto.SaleMinDTO;
 import com.devsuperior.dsmeta.services.SaleService;
 
+import javax.swing.*;
 import java.util.List;
 
 @RestController
@@ -24,9 +26,12 @@ public class SaleController {
 	}
 
 	@GetMapping(value = "/report")
-	public ResponseEntity<?> getReport() {
-		// TODO
-		return null;
+	public ResponseEntity<List<ReportDTO>> getReport(@RequestParam(defaultValue = "") String minDate,
+											   @RequestParam(defaultValue = "") String maxDate,
+											   @RequestParam(defaultValue = "") String name) {
+		List<ReportDTO> reportDTO = service.getReport(minDate, maxDate, name);
+		System.out.println(name + "OIIII");
+		return ResponseEntity.ok(reportDTO);
 	}
 
 	@GetMapping(value = "/summary")
