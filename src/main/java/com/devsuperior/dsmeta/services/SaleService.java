@@ -65,7 +65,6 @@ public class SaleService {
 			minDate = LocalDate.parse((minDateText));
 		}
 		List<ReportProjection> result = repository.report(minDate, maxDate, sellerName);
-		System.out.println(sellerName + "OIII");
 		return result.stream().map(ReportDTO::new).toList();
 	}
 
