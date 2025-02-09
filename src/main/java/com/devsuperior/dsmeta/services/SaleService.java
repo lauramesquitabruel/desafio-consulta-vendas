@@ -12,6 +12,9 @@ import com.devsuperior.dsmeta.dto.SummaryDTO;
 import com.devsuperior.dsmeta.projections.ReportProjection;
 import com.devsuperior.dsmeta.projections.SummaryProjection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.devsuperior.dsmeta.dto.SaleMinDTO;
@@ -30,7 +33,7 @@ public class SaleService {
 		return new SaleMinDTO(entity);
 	}
 
-	public List<SummaryDTO> getSummary(String minDateText, String maxDateText) {
+	public Page<SummaryDTO> getSummary(String minDateText, String maxDateText, Pageable pageable) {
 		LocalDate minDate;
 		LocalDate maxDate;
 
@@ -45,11 +48,11 @@ public class SaleService {
 		} else {
 			minDate = LocalDate.parse((minDateText));
 		}
-		List<SummaryProjection> result = repository.summary(minDate, maxDate);
-		return result.stream().map(SummaryDTO::new).toList();
+		Page<SummaryProjection> result = repository.summary(minDate, maxDate, pageable);
+		return result.map(SummaryDTO::new);
 	}
 
-	public List<ReportDTO> getReport(String minDateText, String maxDateText, String sellerName){
+	public Page<ReportDTO> getReport(String minDateText, String maxDateText, String sellerName, Pageable pageable){
 		LocalDate minDate;
 		LocalDate maxDate;
 
@@ -64,8 +67,8 @@ public class SaleService {
 		} else {
 			minDate = LocalDate.parse((minDateText));
 		}
-		List<ReportProjection> result = repository.report(minDate, maxDate, sellerName);
-		return result.stream().map(ReportDTO::new).toList();
+		Page<ReportProjection> result = repository.report(minDate, maxDate, sellerName, pageable);
+		return result.map(ReportDTO::new);
 	}
 
 }
